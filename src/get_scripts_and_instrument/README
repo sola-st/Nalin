@@ -1,0 +1,6 @@
+The code contained in this directory is useful for:
+- Extracting a given number of Jupyter notebooks from the zip files
+- Converting the Jupyter notebooks to corresponding Python scripts
+- Instrumenting the Python scripts
+
+The root file for these operations is 'run_get_scripts_and_instrument.py'
