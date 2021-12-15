@@ -11,6 +11,7 @@ from tqdm import tqdm
 import subprocess
 from threading import Timer
 from zipfile import ZipFile, BadZipFile
+from pathlib import Path
 
 
 def convert_ipynb_to_py(argument):
@@ -34,7 +35,7 @@ def convert_ipynb_to_py(argument):
 
 
 def extract_jupyter_notebooks_and_convert_to_py_scripts(in_dir: str, out_dir: str,
-                                                        required_number_of_files: int = 1000) -> None:
+                                                        required_number_of_files: int = 10) -> None:
     """
     Go through the zipped files of in_dir and extract them
     to out_dir. Next, convert the jupyter notebooks to python scripts.
@@ -45,7 +46,7 @@ def extract_jupyter_notebooks_and_convert_to_py_scripts(in_dir: str, out_dir: st
     :return:
     """
     fs.create_dir_list_if_not_present([out_dir])
-    zip_files = fs.go_through_dir(directory=in_dir, filter_file_extension='.zip')
+    zip_files = list(Path(in_dir).rglob('*.zip'))
     actual_needed_files = required_number_of_files
     for zf in tqdm(zip_files, desc='Going over zips in {}'.format(in_dir), ascii=" #"):
         if required_number_of_files < 1:
@@ -53,15 +54,18 @@ def extract_jupyter_notebooks_and_convert_to_py_scripts(in_dir: str, out_dir: st
         try:
             with ZipFile(zf, 'r') as zobj:
                 file_list = zobj.namelist()
-                file_list = file_list[:required_number_of_files]
+                # file_list = file_list[:required_number_of_files]
+                tqdm.write("Extracting Jupyter Notebooks")
                 for f in file_list:
                     if f.endswith('.ipynb'):
                         # TODO: Check if out_dir already contains a file with the name f and rename it
                         zobj.extract(f, path=out_dir)
                         required_number_of_files -= 1
-                        if actual_needed_files and (((
-                                                             actual_needed_files - required_number_of_files) / actual_needed_files) * 100) % 10 == 0:
-                            print(f"Got {required_number_of_files}/{actual_needed_files} files")
+                        if required_number_of_files < 1:
+                            break
+                        # if actual_needed_files and (((
+                        #                                      actual_needed_files - required_number_of_files) / actual_needed_files) * 100) % 10 == 0:
+                        #     print(f"Got {required_number_of_files}/{actual_needed_files} files")
         except BadZipFile:
             print("Can't read zip {}, it is probably broken".format(zf))
 

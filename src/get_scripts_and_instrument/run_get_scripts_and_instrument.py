@@ -22,11 +22,11 @@ def run(python_scripts_dir: str, out_dir_execution_output: str, instrument_in_pl
                                 jupyter notebooks then this is the directory where the .ipynb → .py converted files will
                                 be written.
     :param out_dir_execution_output: This is the directory where assignments are serialized when the instrumented files
-                                     are executed.
+                                     are executed (for example through Docker container).
                                      Please make sure it exists.
                                      An ABSOLUTE PATH is needed here. A relative path will not work !!
-    :param instrument_in_place: A boolean flag representing where the files instrumented should be overwritten
-    :param jupyter_notebooks_dir:  It is expected that the dataset is Zipped
+    :param instrument_in_place: A boolean flag representing whether the files instrumented should be overwritten
+    :param jupyter_notebooks_dir:  It is expected that the dataset is contained in multiple Zipped files
     :return:
     """
     # Directories
@@ -36,8 +36,8 @@ def run(python_scripts_dir: str, out_dir_execution_output: str, instrument_in_pl
     fs.create_dir_list_if_not_present([python_scripts_dir])
 
     # Create python scripts from jupyter notebooks
-    # extract_jupyter_notebooks_and_convert_to_py_scripts(in_dir=jupyter_notebooks_dir, out_dir=python_scripts_dir,
-    #                                             required_number_of_files=10000)
+    extract_jupyter_notebooks_and_convert_to_py_scripts(in_dir=jupyter_notebooks_dir, out_dir=python_scripts_dir,
+                                                required_number_of_files=100)
 
     # Instrument python scripts to capture dynamic analysis information
     # If instrument_in_place is True then replace the original file with the instrumented one, else create
@@ -57,3 +57,6 @@ def run(python_scripts_dir: str, out_dir_execution_output: str, instrument_in_pl
         print("\n### You may now execute the instrumented files ### ")
     except Exception as e:
         print(e)
+
+if __name__ == '__main__':
+    run(python_scripts_dir='benchmark/python_scripts', out_dir_execution_output='/home/jibesh/Nalin/benchmark/outputs')
