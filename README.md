@@ -32,6 +32,10 @@ We use the dataset from a [CHI’18](https://dl.acm.org/doi/10.1145/3173574.3173
 Notebooks from GitHub. Download the dataset using the [link](https://library.ucsd.edu/dc/collection/bb6931851t).
 We provide a sample of 100 Jupyter notebooks (_benchmark/jupyter_notebook_datasets/sample.zip_) obtained from this dataset for testing. 
 
+**Embedding**
+
+Download the embedding file from the [link](https://u.pcloud.link/publink/show?code=XZyeJaXZrnrbvwzBcYSOWYgzsn4usJ6DOqPy) and put in the _benchmark_ folder.
+
 ---
 
 ## 1. Dynamic Analysis ⚙️
