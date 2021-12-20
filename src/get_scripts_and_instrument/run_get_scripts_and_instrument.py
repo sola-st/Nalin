@@ -59,4 +59,4 @@ def run(python_scripts_dir: str, out_dir_execution_output: str, instrument_in_pl
         print(e)
 
 if __name__ == '__main__':
-    run(python_scripts_dir='benchmark/python_scripts', out_dir_execution_output='/home/jibesh/Nalin/benchmark/outputs')
+    run(python_scripts_dir='benchmark/python_scripts', out_dir_execution_output='/home/jibesh/Nalin/results/dynamic_analysis_outputs')
