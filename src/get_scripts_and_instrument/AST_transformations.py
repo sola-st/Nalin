@@ -183,7 +183,7 @@ def instrument_given_file(in_file_path, out_file_path, out_dir_execution_output)
     try:
         ast = cst.parse_module(src)
     except Exception as e:
-        print(e)
+        # print(e)
         return False  # Syntax error
 
     try:
@@ -211,7 +211,7 @@ def instrument_given_file(in_file_path, out_file_path, out_dir_execution_output)
         ast = ast.visit(track_result)
         instrumented_and_written = True
     except Exception as e:
-        print(e, in_file_path)
+        # print(e, in_file_path)
         return instrumented_and_written
 
     # Finally, write out the code
@@ -222,7 +222,7 @@ def instrument_given_file(in_file_path, out_file_path, out_dir_execution_output)
                 instrumented_code = ast.code
                 file.write(instrumented_code)
             except Exception as e:
-                print(e)
+                # print(e)
                 instrumented_and_written = False
     return instrumented_and_written
 

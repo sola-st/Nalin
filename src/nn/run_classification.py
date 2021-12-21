@@ -11,7 +11,7 @@ from multiprocessing import cpu_count
 from pathlib import Path
 import torch
 from torch.utils.data import DataLoader
-
+import fileutils as fs
 
 from dataset_utils.data_transformers.AblationTransformer import AblationTransformer
 
@@ -181,7 +181,7 @@ if __name__ == '__main__':
 
         test_data_with_predictions = test_dataset.data
         test_data_with_predictions['predicted_p_buggy'] = predictions
-
+        fs.create_dir_list_if_not_present([os.path.join(results_dir, f'prediction_results')])
         predicted_outfile_path = os.path.join(results_dir,
                                               f'prediction_results/{Path(test_dataset_file_path).stem}_predictions.pkl')
         print(f"Writing to '{predicted_outfile_path}'")
