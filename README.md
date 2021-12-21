@@ -8,6 +8,8 @@ There are two main components of the approach:
 
 ## Requirements & Setup
 
+We have tested using Ubuntu 18.04 LTS and Python 3.8
+
 **Directory Structure**
 
 The directory structure is as follows:
