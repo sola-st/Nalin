@@ -1,8 +1,10 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+benchmark/python_scripts
+results/dynamic_analysis_outputs
 *.py[cod]
 *$py.class
-
+**/python38/**
 # C extensions
 *.so
 

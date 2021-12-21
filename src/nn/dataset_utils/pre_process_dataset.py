@@ -533,12 +533,13 @@ def process(positive_examples_dir: str,
             print('Not recreating')
             return
 
-    # We keep a backup of the non pre-processed version of the positive examples because
+    # Sometimes, we keep a backup of the non pre-processed version of the positive examples because
     # we might want to not use some of the heuristics used during pre-processing.
     backup_dataset = 'results/backups_of_datasets/positive_examples_unprocessed.pkl'
-    print(f'Copying {backup_dataset} from backup')
-    shutil.copy(backup_dataset, 'results/positive_examples.pkl')
-    print(f"Reading '{positive_example_out_file_path}'")
+    if Path(backup_dataset).is_file():
+        print(f'Copying {backup_dataset} from backup')
+        shutil.copy(backup_dataset, 'results/positive_examples.pkl')
+        print(f"Reading '{positive_example_out_file_path}'")
     positive_examples_dataset = pd.read_pickle(positive_example_out_file_path, compression='gzip')
     positive_examples_dataset.dropna(inplace=True)
 
@@ -594,6 +595,8 @@ def process(positive_examples_dir: str,
         negative_examples_dataset = negative_examples_dataset.sample(frac=1, random_state=42)
 
         n = 5000  # 'n' each from positive and negative examples
+        if len(positive_examples_dataset) < n:
+            n = (len(positive_examples_dataset) * 5)//100
         print(
             f'Randomly selecting {n * 2} examples for test dataset creation and writing to {test_example_out_file_path}')
 

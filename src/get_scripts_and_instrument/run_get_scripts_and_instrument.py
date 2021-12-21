@@ -13,7 +13,7 @@ This is the starting point for:
 from transform_programs import instrument_programs
 from benchmark_operations import extract_jupyter_notebooks_and_convert_to_py_scripts
 import fileutils as fs
-
+from pathlib import Path
 
 def run(python_scripts_dir: str, out_dir_execution_output: str, instrument_in_place: bool = True,
         jupyter_notebooks_dir: str = 'benchmark/jupyter_notebook_datasets') -> None:
@@ -29,8 +29,9 @@ def run(python_scripts_dir: str, out_dir_execution_output: str, instrument_in_pl
     :param jupyter_notebooks_dir:  It is expected that the dataset is contained in multiple Zipped files
     :return:
     """
-    # Directories
-    fs.create_dir_list_if_not_present([out_dir_execution_output])
+    # This is the directory where the Dynamic Analysis Results will be written
+    local_dynamic_analysis_output_dir = f'{str(Path.cwd())}/results/dynamic_analysis_outputs'
+    fs.create_dir_list_if_not_present([local_dynamic_analysis_output_dir])
 
     python_scripts_instrumented_dir = python_scripts_dir + '_instrumented'
     fs.create_dir_list_if_not_present([python_scripts_dir])
@@ -54,9 +55,11 @@ def run(python_scripts_dir: str, out_dir_execution_output: str, instrument_in_pl
                             out_dir_execution_output=out_dir_execution_output,
                             in_place=instrument_in_place,
                             instrumented_file_suffix=instrumented_file_suffix)
-        print("\n### You may now execute the instrumented files ### ")
+        print(f"\n\n\t ### You may now execute the instrumented files. The assignments encountered during execution \n\t     will be written to '{local_dynamic_analysis_output_dir}'  ###\n")
     except Exception as e:
         print(e)
 
 if __name__ == '__main__':
-    run(python_scripts_dir='benchmark/python_scripts', out_dir_execution_output='/home/jibesh/Nalin/results/dynamic_analysis_outputs')
+    # An absolute path is required for 'out_dir_execution_output'. This path must be present in the Docker 
+    # container where the Python files are executed. 
+    run(python_scripts_dir='benchmark/python_scripts', out_dir_execution_output='/home/dynamic_analysis_outputs')

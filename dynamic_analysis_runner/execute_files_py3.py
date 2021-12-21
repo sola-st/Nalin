@@ -35,9 +35,9 @@ def read_json_file(json_file_path: str) -> Union[List, Dict]:
 
 def writeJSONFile(data: Any, file_path: str) -> Any:
     try:
-        # print("Writing JSON file "+file_path)
+        print(f"Writing JSON file '{file_path}'")
         json.dump(data, codecs.open(file_path, 'w', encoding='utf-8'),
-                  separators=(',', ':'))
+                  separators=(',', ':'), indent=4)
     except:
         print("Could not write to " + file_path)
 
@@ -54,7 +54,7 @@ def call_python_execute_one_file(file_path: str) -> Union[None, str]:
         return p.kill()
 
     error = None
-    time_out_before_killing = 180  # seconds
+    time_out_before_killing = 10  # seconds
     try:
         p = subprocess.Popen(['ipython3', '--ipython-dir=/home', file_path],
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -62,10 +62,8 @@ def call_python_execute_one_file(file_path: str) -> Union[None, str]:
         try:
             time_out.start()
             stdout, stderr = p.communicate()
-            # print(stdout)
             if stderr:
                 error = stderr.decode("utf-8")
-                # print(error)
         finally:
             time_out.cancel()
     except subprocess.TimeoutExpired:
@@ -75,20 +73,22 @@ def call_python_execute_one_file(file_path: str) -> Union[None, str]:
 
 def execute_files_in_dir(files_in_dir: List) -> None:
     errors_executing_files = []
+    output_file_errors_during_execution = '/home/dynamic_analysis_outputs/executing_errors.json'
     with Pool(processes=cpu_count()) as p:
         with tqdm(total=len(files_in_dir)) as pbar:
             pbar.set_description_str(
-                desc="Executing using python3", refresh=False)
+                desc="Executing files", refresh=False)
             for i, err in tqdm(enumerate(p.imap_unordered(call_python_execute_one_file, files_in_dir))):
                 if err:
-                    errors_executing_files.append((files_in_dir[i], err))
+                    errors_executing_files.append({str(files_in_dir[i]): err})
                 pbar.update()
             p.close()
             p.join()
     print(
-        "\n\tOf {} files, {} encountered errors while executing".format(len(files_in_dir), len(errors_executing_files)))
-    writeJSONFile(data=errors_executing_files,
-                  file_path='/home/dynamic_analysis_outputs/executing_errors.json')
+        "\n\t#### Of {} files, {} encountered errors while executing ####".format(len(files_in_dir), len(errors_executing_files)))
+    if len(errors_executing_files):
+        writeJSONFile(data=errors_executing_files,
+                    file_path=output_file_errors_during_execution)
 
 
 if __name__ == '__main__':
@@ -98,7 +98,8 @@ if __name__ == '__main__':
               'not executed files. Executing them')
         py_files_in_dir = ['/home/python_scripts/' + str(f) for f in not_executed_files]
     else:
-        print("Non executed files do not exist")
+        print("None of the files have been executed so far.")
         py_files_in_dir = list(Path('/home/python_scripts').rglob('*.py'))
     random.shuffle(py_files_in_dir)
+    # py_files_in_dir=py_files_in_dir[:100000]
     execute_files_in_dir(files_in_dir=py_files_in_dir)

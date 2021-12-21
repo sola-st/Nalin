@@ -75,5 +75,5 @@ def instrument_programs(in_dir, out_dir, out_dir_execution_output, in_place, ins
             tqdm.write(f"Going through {str(file)}")
             f = instrument_given_file(in_file_path=file, out_file_path=transformed_file_path, out_dir_execution_output=out_dir_execution_output)
             files_that_could_not_be_instrumented.append(f)
-    print("Instrumented {} of {} files".format(sum(files_that_could_not_be_instrumented),
+    print("\n\n\t #### Instrumented {} of {} Python files ####".format(sum(files_that_could_not_be_instrumented),
                                                len(files_that_could_not_be_instrumented)))
