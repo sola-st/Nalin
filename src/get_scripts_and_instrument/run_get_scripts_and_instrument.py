@@ -38,7 +38,7 @@ def run(python_scripts_dir: str, out_dir_execution_output: str, instrument_in_pl
 
     # Create python scripts from jupyter notebooks
     extract_jupyter_notebooks_and_convert_to_py_scripts(in_dir=jupyter_notebooks_dir, out_dir=python_scripts_dir,
-                                                required_number_of_files=100)
+                                                required_number_of_files=2000)
 
     # Instrument python scripts to capture dynamic analysis information
     # If instrument_in_place is True then replace the original file with the instrumented one, else create

@@ -61,7 +61,7 @@ def extract_jupyter_notebooks_and_convert_to_py_scripts(in_dir: str, out_dir: st
                         # TODO: Check if out_dir already contains a file with the name f and rename it
                         zobj.extract(f, path=out_dir)
                         required_number_of_files -= 1
-                        if required_number_of_files < 1:
+                        if required_number_of_files < 0:
                             break
                         # if actual_needed_files and (((
                         #                                      actual_needed_files - required_number_of_files) / actual_needed_files) * 100) % 10 == 0:
