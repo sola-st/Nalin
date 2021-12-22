@@ -5,11 +5,11 @@ This is the accompanying repo for our ICSE'22 [paper](https://arxiv.org/pdf/2112
 There are two main components of the approach:
 
 1. Obtain runtime data using _dynamic analysis_. The data here is assignments encountered during execution.
-2. Train a classifier and find inconsistencies.
+2. Train a classifier and find name-value inconsistencies.
 
 ## TL;DR 🪜
 
-Simply run or follow the 📌 marked commands from the root directory. 
+Simply run or follow the 📌 marked instructions from the root directory of this repository. 
 
 ## Requirements & Setup
 
@@ -196,11 +196,12 @@ this path exists.
 
 ## 2. Classifier 🦞
 
-Hopefully, the dynamic analysis step generated many JSON/Pickle files. Each generated file represents one assignment (
-Eg. num=calc(1,2)) encountered during execution. The next step is to put the individual assignment files together and create a single
+Hopefully, the dynamic analysis step generated many JSON/Pickle files. Each generated file represents one assignment 
+(Eg. num=calc(1,2)) encountered during execution. The next step is to put the individual assignment files together and create a single
 file. We call this file _positive_examples_.
 
-To be effective, a classifier needs both positive and negative examples. We have two ways of create negative examples.
+To be effective, a classifier needs both positive and negative examples. The negative examples are name and value pairs
+that typically do not occur together. We have two ways of create negative examples.
 One is to generate them randomly while the other use some heuristic for generating them. 
 
 All experiments using the classifier is run using the command ```python src/nn/run_classification.py```.
