@@ -54,7 +54,6 @@ if __name__ == '__main__':
 
     model_name = f'RNNClassifier_{model_name_suffix}'
 
-
     pos_dataset_file_path = args.pos_dataset
     neg_dataset_file_path = args.neg_dataset
     test_dataset_file_path = args.test_dataset
@@ -67,7 +66,7 @@ if __name__ == '__main__':
         values. The idea is to check if certain idenfiers such as URL are only assigned values having certain properties
         3. weighted_random: This is the default strategy. Refer to the code where it is implemented for further details.
     """
-    heuristics_for_generating_negative_examples = ['random','weighted_random'][1]
+    heuristics_for_generating_negative_examples = ['random', 'weighted_random'][1]
 
     # Types and the corresponding frequency in the dataset
     """
@@ -99,7 +98,6 @@ if __name__ == '__main__':
     embedding_dim = 0
     features_to_ablate = args.ablation
 
-
     # Workaround for debugging on a laptop. Change with the cpu_count of your machine if required for debugging data loading
     # else leave it alone
     if cpu_count() > 20:
@@ -114,7 +112,6 @@ if __name__ == '__main__':
 
     # Initialize model and model specific dataset data_transformers
     print(f"\n{'-' * 20} Using model '{model_name}' {'-' * 20}")
-
 
     resize_data = ResizeData(len_of_value=max_num_of_chars_in_value)
     value_to_one_hot = ValueToCharSequence(
@@ -184,9 +181,12 @@ if __name__ == '__main__':
         fs.create_dir_list_if_not_present([os.path.join(results_dir, f'prediction_results')])
         predicted_outfile_path = os.path.join(results_dir,
                                               f'prediction_results/{Path(test_dataset_file_path).stem}_predictions.pkl')
-        print(f"Writing to '{predicted_outfile_path}'")
+
         test_data_with_predictions.sort_values('predicted_p_buggy', ascending=False, inplace=True)
         test_data_with_predictions.reset_index(drop=True, inplace=True)
-        # test_data_with_predictions.to_csv(predicted_outfile_path)
-        test_data_with_predictions.to_pickle(path=predicted_outfile_path, compression='gzip')
+        csv_outfile_path = predicted_outfile_path.replace('.pkl', '.csv')
 
+        print(f"Writing prediction results to: '{csv_outfile_path}'")
+        test_data_with_predictions.to_csv(csv_outfile_path)
+        print(f"Writing prediction results to: '{predicted_outfile_path}'")
+        test_data_with_predictions.to_pickle(path=predicted_outfile_path, compression='gzip')
