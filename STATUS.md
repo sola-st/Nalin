@@ -1,0 +1,1 @@
+We are applying for functional, reusable, available, reproduced badges.
