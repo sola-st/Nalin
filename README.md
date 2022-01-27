@@ -233,3 +233,14 @@ python src/nn/run_classification.py --test --saved-model=results/saved_models/RN
 
 💡 The names of saved models are of the format: RNNClassifier_Nalin_RUN_ON__FSCORE.pt. For example, the saved model called _RNNClassifier_Nalin_22-12-2021--10/47/00_0.817.pt_ 
 was run on 22-Dec-2021 and the F-score was 0.817
+
+### Correspondence with the paper 📃
+- The testing phase corresponds to **Section 4.2** 
+- The user study results of **Section 4.3** are present in _results/Variable Names vs. Runtime Values.csv_
+- The results of **Section 4.4** are present in a JSON file called _results/test_dataset_predictions.json_. The JSON 
+file contains the file from where the example has been obtained from, the name of the variable, the value
+value assigned to it at runtime and predicted_p_buggy which means the probability with which the model thinks
+the example to be buggy. The files containing top-30 predictions are present at _results/list_of_files_top30_predictions.txt_.
+- The files used for comparing with other bug detecting approaches presented in **Section 4.5** are
+listed at _results/list_of_files_top30_predictions.txt_.
+- The ablation study results of **Section 4.6** are present at _src/utils/ablation_study_results.ipynb_
