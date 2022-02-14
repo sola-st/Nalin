@@ -1,6 +1,8 @@
 🌸 Nalin: Learning from Runtime Behavior to Find Name-Value Inconsistencies in Jupyter Notebooks
 ---
-This is the accompanying repo for our ICSE'22 [paper](https://arxiv.org/pdf/2112.06186.pdf).
+This is the accompanying repo for our ICSE'22 [paper](https://arxiv.org/pdf/2112.06186.pdf). We present a Zenodo
+[archive](https://zenodo.org/record/6078527) that also contains a list of sample Jupyter notebooks and the embedding file not suitable for this repository
+because of their size.
 
 There are two main components of the approach:
 
@@ -48,12 +50,13 @@ pip install torch==1.10.1+cpu torchvision==0.11.2+cpu torchaudio==0.10.1+cpu -f 
 
 We use the dataset from a CHI’18 [paper](https://dl.acm.org/doi/10.1145/3173574.3173606) that has analyzed more than 1.3 million publicly available Jupyter 
 Notebooks from GitHub. Download the dataset using the [link](https://library.ucsd.edu/dc/collection/bb6931851t).
-We provide a sample of about 2000 Jupyter notebooks (_benchmark/jupyter_notebook_datasets/sample.zip_) obtained from this dataset for testing. 
+We provide a sample of about 2000 Jupyter notebooks (_benchmark/jupyter_notebook_datasets/sample.zip_) obtained from this dataset for testing (Download the sample from 
+the Zenodo [archive](https://zenodo.org/record/6078527)). 
 
 #### Embedding
 
 📌
-Download the embedding file from the [link](https://u.pcloud.link/publink/show?code=XZyeJaXZrnrbvwzBcYSOWYgzsn4usJ6DOqPy) and put in the _benchmark_ folder.
+Download the embedding file present at _benchmark/python_embeddings.bin_ from the Zenodo [archive](https://zenodo.org/record/6078527) and put in the _benchmark_ folder.
 
 ---
 
